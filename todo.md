@@ -9,9 +9,9 @@
 
 ### Spacial layer
 
-* Serve from Flask server
-* Send a tonal + drum samples to browser
-* Play in loop on start/stop (for time offset)
+* ~~Serve from Flask server~~
+* ~~Send a tonal + drum samples to browser~~
+* ~~Play in loop on start/stop (for time offset)~~
 * Canvas area
 * Drag & drop
 * Movement in space (with muting)
