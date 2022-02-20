@@ -7,21 +7,14 @@
   * ~~install VS Code extensions from work~~
   * Start using zsh keybindings
 
-### Spacial layer
 
-* ~~Serve from Flask server~~
-* ~~Send a tonal + drum samples to browser~~
-* ~~Play in loop on start/stop (for time offset)~~
-* Canvas area
-* Drag & drop
-* Movement in space (with muting)
-* Distance based volume
-* Persistent
-* Multi client
+### Pattern layer
+* Local React setup
+* React pattern visualization
+* Play & pause
 
 
 ### Deployment
-
 * set up environment
   * Add requirements.txt
   * Set up Docker
@@ -89,6 +82,17 @@
     * Implement a filter
 * Implement sampler instrument
 
+### Spacial layer
+
+* ~~Serve from Flask server~~
+* ~~Send a tonal + drum samples to browser~~
+* ~~Play in loop on start/stop (for time offset)~~
+* Drag & drop
+* Movement in space (with muting)
+* Distance based volume
+* Persistent
+* Multi client
+
 ## Dev Log
 
 ### 2022-02-12
@@ -109,3 +113,11 @@ Thanks to [this blog post](https://medium.com/geekculture/building-a-modular-syn
 2022-02-15
 
 I've made the decision to focus on the spacial layer of Chirp. The basic design is documented in the to-dos. One idea that might not be clear from these is that I don't want to use a piano roll or other DAW idioms. The basic idea is a spacial, social loop machine environment where the building blocks are very simple loops categorized (and visualized with a not-yet-determined visual idiom: plants?) by instrument + "color" + pattern. Color is similar to chord, while pattern is similar to arpeggio. I don't want users to be thinking about music theory etc, but just playing with the pre-built blocks and spacial + social aspect.
+
+2022-02-19
+
+I've reversed the decision to focus on the spacial layer. However, I'm not going for a piano roll, but sticking with the colors/patterns idea and going with a pattern editing idiom. Keeping the real-time social element.
+
+I decided to use React for the front-end. I think this will speed up and make the front end interactions easier to create.
+
+After looking at some tutorials, I decided to separate the API and frontend processes. At first, I wanted to serve the React files from the Flask app, but it seems that React tooling makes it simpler to launch the front-end from Node.
