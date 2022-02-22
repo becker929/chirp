@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import * as Tone from "tone";
 import "./index.css";
 
 class Cell extends React.Component {
@@ -39,11 +40,41 @@ class Cell extends React.Component {
 
 const numCols = 12;
 const numRows = 12;
-
 class CellGrid extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            isPlaying: true,
+        };
+        this.togglePlayStop = this.togglePlayStop.bind(this);
+        this.playNote = this.playNote.bind(this);
+        this.synth = new Tone.Synth().toDestination();
+    }
+
+    componentDidMount() {
+        // Array.from(document.getElementsByClassName("play-button")).forEach(
+        //     (element) =>
+        //         element.addEventListener("click", function (e) {
+        //             console.log(e.target.dataset.note);
+        //         })
+        // );
+    }
+
     cellGridRow() {
-        let cells = new Array(numCols).fill(<Cell />);
-        return cells;
+        let row = new Array(numCols).fill(<Cell />);
+        return row;
+    }
+
+
+    playNote(note="A4") {
+        Tone.Transport.start();
+        this.synth.triggerAttackRelease(note, "8n");
+    }
+
+    togglePlayStop() {
+        this.setState((prevState) => ({
+            isPlaying: !prevState.isPlaying,
+        }));
     }
 
     render() {
@@ -52,6 +83,32 @@ class CellGrid extends React.Component {
                 {new Array(numRows).fill(
                     <div className="cell-grid-row">{this.cellGridRow()}</div>
                 )}
+                <div>
+                    <button
+                        className="control-button play-button"
+                        onClick={this.togglePlayStop}
+                    >
+                        {this.state.isPlaying ? "s" : "p"}
+                    </button>
+                    <button className="control-button speed-button">1</button>
+                </div>
+                <div>
+                    <button className="play-button"
+                        onClick={() => this.playNote("A4")}
+                    >
+                        A
+                    </button>
+                    <button className="play-button"
+                        onClick={() => this.playNote("C5")}
+                    >
+                        C
+                    </button>
+                    <button className="play-button"
+                        onClick={() => this.playNote("E5")}
+                    >
+                        E
+                    </button>
+                </div>
             </div>
         );
     }
