@@ -37,20 +37,32 @@ ul {
 .cell-active {
     background: #000;
 }
-
-.square:focus {
-    outline: none;
+.cell-inactive-highlighted {
+    border: 2px solid blueviolet;
+}
+.cell-active-highlighted {
+    border: 2px solid blueviolet;
+    background: blue;
 }
 
-.kbd-navigation .square:focus {
-    background: #ddd;
+.control-button {
+    border: 2px solid;
+    border-radius: 10%;
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 34px;
+    height: 34px;
+    margin-left: 0px;
+    margin-top: 4px;
+    padding: 0;
+    text-align: center;
+    width: 34px;
 }
 
-.game {
-    display: flex;
-    flex-direction: row;
+.play-button {
+    margin-right: 20px;
 }
 
-.game-info {
-    margin-left: 20px;
+.speed-button {
+    margin-right: 8px;
 }
