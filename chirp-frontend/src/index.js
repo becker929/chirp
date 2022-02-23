@@ -30,7 +30,6 @@ class App extends React.Component {
             cellsAreActive: cellsAreActive,
         };
         this.togglePlayStop = this.togglePlayStop.bind(this);
-        this.playNote = this.playNote.bind(this);
         this.toggleActive = this.toggleActive.bind(this);
         this.synth = new Tone.Synth().toDestination();
     }
@@ -53,11 +52,6 @@ class App extends React.Component {
         return row;
     }
 
-    playNote(note = "A4") {
-        Tone.Transport.start();
-        this.synth.triggerAttackRelease(note, "8n");
-    }
-
     togglePlayStop() {
         this.setState(
             (prevState) => ({
@@ -73,7 +67,11 @@ class App extends React.Component {
                             }),
                             () => {
                                 console.log(this.state.colIndex);
-                                this.playNote("E4");
+                                this.synth.triggerAttackRelease(
+                                    "A4",
+                                    "8n",
+                                    time
+                                );
                             }
                         );
                     }, "4n");
@@ -115,26 +113,6 @@ class App extends React.Component {
                         {this.state.isPlaying ? "s" : "p"}
                     </button>
                     <button className="control-button speed-button">1</button>
-                </div>
-                <div>
-                    <button
-                        className="play-button"
-                        onClick={() => this.playNote("A4")}
-                    >
-                        A
-                    </button>
-                    <button
-                        className="play-button"
-                        onClick={() => this.playNote("C5")}
-                    >
-                        C
-                    </button>
-                    <button
-                        className="play-button"
-                        onClick={() => this.playNote("E5")}
-                    >
-                        E
-                    </button>
                 </div>
             </div>
         );
