@@ -439,4 +439,8 @@ dist
 # Support for Project snippet scope
 
 # End of https://www.toptal.com/developers/gitignore/api/flask,python,visualstudiocode,macos,linux,node
+
 .vscode/
+
+# static files will be stored under client and moved to server/server/static/ on build
+server/server/static/

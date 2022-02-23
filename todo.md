@@ -8,6 +8,7 @@
     -   ~~install VS Code extensions from work~~
     -   Start using zsh keybindings
     -   Set up VS Code SSH
+    -   ~~Set up React + Flask hot reloading~~
 
 ### Pattern layer
 
