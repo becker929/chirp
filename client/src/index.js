@@ -143,10 +143,12 @@ class App extends React.Component {
     }
 }
 
-fetch("http://localhost:5000/test-data")
+fetch("http://127.0.0.1:5000/test-data")
     .then((response) => response.json())
     .then((data) => {
         console.log(data);
+        console.log("wicked!");
+        console.log("fast!");
         ReactDOM.render(
             <App cellsAreActive={data.cellsAreActive} />,
             document.getElementById("root")
