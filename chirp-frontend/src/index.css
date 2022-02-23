@@ -37,11 +37,10 @@ ul {
 .cell-active {
     background: #000;
 }
-.cell-inactive-highlighted {
+.cell-highlighted {
     border: 2px solid blueviolet;
 }
-.cell-active-highlighted {
-    border: 2px solid blueviolet;
+.cell-active.cell-highlighted {
     background: blue;
 }
 

@@ -5,8 +5,12 @@ import "./index.css";
 
 function Cell(props) {
     const className =
-        "cell " + (props.isActive ? "cell-active" : "cell-inactive");
-    return <button className={className} onClick={props.onClick}>{props.value}</button>;
+        "cell " + (props.isActive ? "cell-active" : "cell-inactive") + (props.isHighlighted ? " cell-highlighted" : "");
+    return (
+        <button className={className} onClick={props.onClick}>
+            {props.value}
+        </button>
+    );
 }
 
 const numRows = 12;
@@ -19,6 +23,7 @@ class App extends React.Component {
             cellsAreActive[i] = new Array(numCols).fill(false);
         }
         this.state = {
+            colIndex: 0,
             isPlaying: true,
             cellsAreActive: cellsAreActive,
         };
@@ -34,6 +39,7 @@ class App extends React.Component {
             row[j] = (
                 <Cell
                     isActive={this.state.cellsAreActive[i][j]}
+                    isHighlighted={this.state.isPlaying && (this.state.colIndex == j)}
                     onClick={() => this.toggleActive(i, j)}
                     value={String(i) + "-" + String(j)}
                     key={`cell-${i}-${j}`}
@@ -49,9 +55,29 @@ class App extends React.Component {
     }
 
     togglePlayStop() {
-        this.setState((prevState) => ({
-            isPlaying: !prevState.isPlaying,
-        }));
+        this.setState(
+            (prevState) => ({
+                colIndex: 0,
+                isPlaying: !prevState.isPlaying,
+            }),
+            () => {
+                if (this.state.isPlaying) {
+                    Tone.Transport.scheduleRepeat((time) => {
+                        this.setState((prevState) => ({
+                            colIndex: (prevState.colIndex + 1) % numCols,
+                        }), () => {
+                            console.log(this.state.colIndex);
+                            this.playNote("E4");
+                        });
+                    }, "4n");
+                    // transport must be started before it starts invoking events
+                    Tone.Transport.start();
+                } else {
+                    Tone.Transport.cancel();
+                    Tone.Transport.stop();
+                }
+            }
+        );
     }
 
     toggleActive(i, j) {
