@@ -18,16 +18,12 @@ function Cell(props) {
 const numRows = 12;
 const numCols = 12;
 class App extends React.Component {
-    constructor() {
-        super();
-        const cellsAreActive = new Array(numRows);
-        for (let i = 0; i < numRows; i++) {
-            cellsAreActive[i] = new Array(numCols).fill(false);
-        }
+    constructor(props) {
+        super(props);
         this.state = {
             colIndex: 0,
             isPlaying: false,
-            cellsAreActive: cellsAreActive,
+            cellsAreActive: props.cellsAreActive,
         };
         this.togglePlayStop = this.togglePlayStop.bind(this);
         this.toggleActive = this.toggleActive.bind(this);
@@ -67,6 +63,7 @@ class App extends React.Component {
     }
 
     togglePlayStop() {
+        console.log(this.state.cellsAreActive);
         this.setState(
             (prevState) => ({
                 colIndex: -1,
@@ -145,4 +142,12 @@ class App extends React.Component {
     }
 }
 
-ReactDOM.render(<App />, document.getElementById("root"));
+fetch("http://localhost:5000/test-data")
+    .then((response) => response.json())
+    .then((data) => {
+        console.log(data);
+        ReactDOM.render(
+            <App cellsAreActive={data.cellsAreActive} />,
+            document.getElementById("root")
+        );
+    });
