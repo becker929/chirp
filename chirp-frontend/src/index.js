@@ -26,12 +26,26 @@ class App extends React.Component {
         }
         this.state = {
             colIndex: 0,
-            isPlaying: true,
+            isPlaying: false,
             cellsAreActive: cellsAreActive,
         };
         this.togglePlayStop = this.togglePlayStop.bind(this);
         this.toggleActive = this.toggleActive.bind(this);
-        this.synth = new Tone.Synth().toDestination();
+        this.synth = new Tone.PolySynth().toDestination();
+        this.rowNotes = [
+            "C4",
+            "D4",
+            "E4",
+            "F4",
+            "G4",
+            "A4",
+            "B4",
+            "C5",
+            "D5",
+            "E5",
+            "F5",
+            "G5",
+        ];
     }
 
     cellGridRow(i) {
@@ -55,28 +69,40 @@ class App extends React.Component {
     togglePlayStop() {
         this.setState(
             (prevState) => ({
-                colIndex: 0,
+                colIndex: -1,
                 isPlaying: !prevState.isPlaying,
             }),
             () => {
                 if (this.state.isPlaying) {
+                    // transport must be started before it starts invoking events
+                    Tone.Transport.start();
                     Tone.Transport.scheduleRepeat((time) => {
                         this.setState(
                             (prevState) => ({
                                 colIndex: (prevState.colIndex + 1) % numCols,
                             }),
                             () => {
-                                console.log(this.state.colIndex);
-                                this.synth.triggerAttackRelease(
-                                    "A4",
-                                    "8n",
-                                    time
-                                );
+                                let notesToPlay = [];
+                                for (let i = 0; i < numRows; i++) {
+                                    if (
+                                        this.state.cellsAreActive[i][
+                                            this.state.colIndex
+                                        ]
+                                    ) {
+                                        notesToPlay.push(this.rowNotes[i]);
+                                    }
+                                }
+                                console.log(notesToPlay);
+                                if (notesToPlay.length) {
+                                    this.synth.triggerAttackRelease(
+                                        notesToPlay,
+                                        "8n",
+                                        time
+                                    );
+                                }
                             }
                         );
                     }, "4n");
-                    // transport must be started before it starts invoking events
-                    Tone.Transport.start();
                 } else {
                     Tone.Transport.cancel();
                     Tone.Transport.stop();
