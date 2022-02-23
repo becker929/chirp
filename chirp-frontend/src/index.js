@@ -5,7 +5,9 @@ import "./index.css";
 
 function Cell(props) {
     const className =
-        "cell " + (props.isActive ? "cell-active" : "cell-inactive") + (props.isHighlighted ? " cell-highlighted" : "");
+        "cell " +
+        (props.isActive ? "cell-active" : "cell-inactive") +
+        (props.isHighlighted ? " cell-highlighted" : "");
     return (
         <button className={className} onClick={props.onClick}>
             {props.value}
@@ -39,7 +41,9 @@ class App extends React.Component {
             row[j] = (
                 <Cell
                     isActive={this.state.cellsAreActive[i][j]}
-                    isHighlighted={this.state.isPlaying && (this.state.colIndex == j)}
+                    isHighlighted={
+                        this.state.isPlaying && this.state.colIndex == j
+                    }
                     onClick={() => this.toggleActive(i, j)}
                     value={String(i) + "-" + String(j)}
                     key={`cell-${i}-${j}`}
@@ -63,12 +67,15 @@ class App extends React.Component {
             () => {
                 if (this.state.isPlaying) {
                     Tone.Transport.scheduleRepeat((time) => {
-                        this.setState((prevState) => ({
-                            colIndex: (prevState.colIndex + 1) % numCols,
-                        }), () => {
-                            console.log(this.state.colIndex);
-                            this.playNote("E4");
-                        });
+                        this.setState(
+                            (prevState) => ({
+                                colIndex: (prevState.colIndex + 1) % numCols,
+                            }),
+                            () => {
+                                console.log(this.state.colIndex);
+                                this.playNote("E4");
+                            }
+                        );
                     }, "4n");
                     // transport must be started before it starts invoking events
                     Tone.Transport.start();
@@ -92,7 +99,9 @@ class App extends React.Component {
         let rows = new Array(numRows);
         for (let i = 0; i < numRows; i++) {
             rows[i] = (
-                <div className="cell-grid-row" key={`cell-grid-row-${i}`}>{this.cellGridRow(i)}</div>
+                <div className="cell-grid-row" key={`cell-grid-row-${i}`}>
+                    {this.cellGridRow(i)}
+                </div>
             );
         }
         return (
