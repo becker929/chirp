@@ -14,13 +14,16 @@
 -   ~~Local React setup~~
 -   ~~React pattern visualization~~
 -   Play & pause
-    -   Reference `step-sequencer`
-        -   ~~Implement play/stop button change state~~
-        -   Implement animations of cells
-        -   Implement 3-value speed
+    -   ~~Implement play/stop button change state~~
+    -   Implement animations of cells
+        - On play, set 1st column visual & plan tone based on filled cells
+        - use transport timing callback?
+            - or use setinterval if too hard...
+    -   Implement 3-value speed
     -   Use Sampler
     -   Load files
 -   Maybe
+    -   improve timing
     -   drag to draw
 
 ### Deployment
