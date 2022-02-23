@@ -10,17 +10,12 @@ class Cell extends React.Component {
             isActive: false,
         };
         this.toggleActive = this.toggleActive.bind(this);
-        this.mouseDown = this.mouseDown.bind(this);
     }
 
     toggleActive() {
         this.setState((prevState) => ({
             isActive: !prevState.isActive,
         }));
-    }
-
-    mouseDown() {
-        console.log("mouseDown");
     }
 
     render() {
@@ -32,7 +27,6 @@ class Cell extends React.Component {
                         : "cell cell-inactive"
                 }
                 onClick={this.toggleActive}
-                onMouseDown={this.mouseDown}
             ></button>
         );
     }
@@ -40,7 +34,7 @@ class Cell extends React.Component {
 
 const numCols = 12;
 const numRows = 12;
-class CellGrid extends React.Component {
+class App extends React.Component {
     constructor() {
         super();
         this.state = {
@@ -51,20 +45,10 @@ class CellGrid extends React.Component {
         this.synth = new Tone.Synth().toDestination();
     }
 
-    componentDidMount() {
-        // Array.from(document.getElementsByClassName("play-button")).forEach(
-        //     (element) =>
-        //         element.addEventListener("click", function (e) {
-        //             console.log(e.target.dataset.note);
-        //         })
-        // );
-    }
-
     cellGridRow() {
         let row = new Array(numCols).fill(<Cell />);
         return row;
     }
-
 
     playNote(note="A4") {
         Tone.Transport.start();
@@ -112,10 +96,6 @@ class CellGrid extends React.Component {
             </div>
         );
     }
-}
-
-function App() {
-    return <CellGrid />;
 }
 
 ReactDOM.render(<App />, document.getElementById("root"));
