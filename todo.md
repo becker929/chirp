@@ -15,13 +15,14 @@
 -   ~~React pattern visualization~~
 -   Play & pause
     -   ~~Implement play/stop button change state~~
-    -   Implement animations of cells
-        - On play, set 1st column visual & plan tone based on filled cells
-        - use transport timing callback?
-            - or use setinterval if too hard...
+    -   ~~Implement animations of cells~~
+        - ~~On play, set 1st column visual~~
+        - ~~play tone based on filled cells~~
+        - ~~use transport timing callback?~~
     -   Implement 3-value speed
     -   Use Sampler
     -   Load files
+    -   Fix doesn't work on reload bug
 -   Maybe
     -   improve timing
     -   drag to draw
