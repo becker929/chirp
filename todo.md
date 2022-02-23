@@ -22,9 +22,20 @@
     -   Implement 3-value speed
     -   Use Sampler
     -   Load files
-    -   Fix doesn't work on reload bug
+    -   ~~Fix doesn't work on reload bug~~
+-   backend
+    -   ~~define data schema for opening sequencer~~
+    -   ~~initialize sequencer from data~~
+    -   ~~Get data from endpoint~~
+    -   List view of saved sequences (list from another endpoint; view list on same page)
+    -   load data from database (managed Postgres on AWS RDS)
+    -   save changes to sequence continuously
+    -   create new sequences
+-   deploy to EC2
+
+hook up my domain name
 -   Maybe
-    -   improve timing
+    -   ~~improve timing~~
     -   drag to draw
 
 ### Deployment
