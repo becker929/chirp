@@ -1,6 +1,0 @@
-{
-    "dependencies": {
-        "prettier": "^2.5.1",
-        "tone": "^14.7.77"
-    }
-}
