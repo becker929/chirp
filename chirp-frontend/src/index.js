@@ -42,7 +42,7 @@ class App extends React.Component {
         return row;
     }
 
-    playNote(note="A4") {
+    playNote(note = "A4") {
         Tone.Transport.start();
         this.synth.triggerAttackRelease(note, "8n");
     }
@@ -81,17 +81,20 @@ class App extends React.Component {
                     <button className="control-button speed-button">1</button>
                 </div>
                 <div>
-                    <button className="play-button"
+                    <button
+                        className="play-button"
                         onClick={() => this.playNote("A4")}
                     >
                         A
                     </button>
-                    <button className="play-button"
+                    <button
+                        className="play-button"
                         onClick={() => this.playNote("C5")}
                     >
                         C
                     </button>
-                    <button className="play-button"
+                    <button
+                        className="play-button"
                         onClick={() => this.playNote("E5")}
                     >
                         E
