@@ -51,7 +51,7 @@ class App extends React.Component {
                 <Cell
                     isActive={this.state.cellsAreActive[i][j]}
                     isHighlighted={
-                        this.state.isPlaying && this.state.colIndex == j
+                        this.state.isPlaying && this.state.colIndex === j
                     }
                     onClick={() => this.toggleActive(i, j)}
                     value={String(i) + "-" + String(j)}
@@ -71,6 +71,7 @@ class App extends React.Component {
             }),
             () => {
                 if (this.state.isPlaying) {
+                    Tone.start();
                     // transport must be started before it starts invoking events
                     Tone.Transport.start();
                     Tone.Transport.scheduleRepeat((time) => {
