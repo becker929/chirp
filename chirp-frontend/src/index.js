@@ -36,6 +36,7 @@ class App extends React.Component {
                     isActive={this.state.cellsAreActive[i][j]}
                     onClick={() => this.toggleActive(i, j)}
                     value={String(i) + "-" + String(j)}
+                    key={`cell-${i}-${j}`}
                 />
             );
         }
@@ -65,7 +66,7 @@ class App extends React.Component {
         let rows = new Array(numRows);
         for (let i = 0; i < numRows; i++) {
             rows[i] = (
-                <div className="cell-grid-row">{this.cellGridRow(i)}</div>
+                <div className="cell-grid-row" key={`cell-grid-row-${i}`}>{this.cellGridRow(i)}</div>
             );
         }
         return (
