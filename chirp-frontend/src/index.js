@@ -3,50 +3,42 @@ import ReactDOM from "react-dom";
 import * as Tone from "tone";
 import "./index.css";
 
-class Cell extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            isActive: false,
-        };
-        this.toggleActive = this.toggleActive.bind(this);
-    }
-
-    toggleActive() {
-        this.setState((prevState) => ({
-            isActive: !prevState.isActive,
-        }));
-    }
-
-    render() {
-        return (
-            <button
-                className={
-                    this.state.isActive
-                        ? "cell cell-active"
-                        : "cell cell-inactive"
-                }
-                onClick={this.toggleActive}
-            ></button>
-        );
-    }
+function Cell(props) {
+    const className =
+        "cell " + (props.isActive ? "cell-active" : "cell-inactive");
+    return <button className={className} onClick={props.onClick}>{props.value}</button>;
 }
 
-const numCols = 12;
 const numRows = 12;
+const numCols = 12;
 class App extends React.Component {
     constructor() {
         super();
+        const cellsAreActive = new Array(numRows);
+        for (let i = 0; i < numRows; i++) {
+            cellsAreActive[i] = new Array(numCols).fill(false);
+        }
         this.state = {
             isPlaying: true,
+            cellsAreActive: cellsAreActive,
         };
         this.togglePlayStop = this.togglePlayStop.bind(this);
         this.playNote = this.playNote.bind(this);
+        this.toggleActive = this.toggleActive.bind(this);
         this.synth = new Tone.Synth().toDestination();
     }
 
-    cellGridRow() {
-        let row = new Array(numCols).fill(<Cell />);
+    cellGridRow(i) {
+        let row = new Array(numCols);
+        for (let j = 0; j < numCols; j++) {
+            row[j] = (
+                <Cell
+                    isActive={this.state.cellsAreActive[i][j]}
+                    onClick={() => this.toggleActive(i, j)}
+                    value={String(i) + "-" + String(j)}
+                />
+            );
+        }
         return row;
     }
 
@@ -61,12 +53,24 @@ class App extends React.Component {
         }));
     }
 
+    toggleActive(i, j) {
+        const cellsAreActive = this.state.cellsAreActive.slice();
+        cellsAreActive[i][j] = !cellsAreActive[i][j];
+        this.setState(() => ({
+            cellsAreActive: cellsAreActive,
+        }));
+    }
+
     render() {
+        let rows = new Array(numRows);
+        for (let i = 0; i < numRows; i++) {
+            rows[i] = (
+                <div className="cell-grid-row">{this.cellGridRow(i)}</div>
+            );
+        }
         return (
             <div>
-                {new Array(numRows).fill(
-                    <div className="cell-grid-row">{this.cellGridRow()}</div>
-                )}
+                {rows}
                 <div>
                     <button
                         className="control-button play-button"
