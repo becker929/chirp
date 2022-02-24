@@ -123,7 +123,7 @@ class App extends React.Component {
             }),
             () => {
                 fetch(
-                    `http://127.0.0.1:5000/sequence?sequence=${sequenceName}`,
+                    `http://127.0.0.1/sequence?sequence=${sequenceName}`,
                     {
                         method: "PUT",
                         headers: { "Content-Type": "application/json" },
@@ -137,7 +137,7 @@ class App extends React.Component {
     }
 
     async getSequenceList() {
-        fetch("http://127.0.0.1:5000/sequences-list")
+        fetch("http://127.0.0.1/sequences-list")
             .then((response) => response.json())
             .then((data) => {
                 this.setState((prevState) => ({
@@ -159,7 +159,7 @@ class App extends React.Component {
 
     createNewSequence() {
         console.log("hello");
-        fetch(`http://127.0.0.1:5000/sequence?sequence=${sequenceName}`, {
+        fetch(`http://127.0.0.1/sequence?sequence=${sequenceName}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
         })
@@ -230,7 +230,7 @@ class App extends React.Component {
 
 const queryParams = new URLSearchParams(window.location.search);
 const sequenceName = queryParams.get("sequence");
-fetch(`http://127.0.0.1:5000/sequence?sequence=${sequenceName}`)
+fetch(`http://127.0.0.1/sequence?sequence=${sequenceName}`)
     .then((response) => response.json())
     .then((data) => {
         ReactDOM.render(
