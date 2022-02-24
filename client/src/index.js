@@ -27,6 +27,7 @@ class App extends React.Component {
         };
         this.togglePlayStop = this.togglePlayStop.bind(this);
         this.toggleActive = this.toggleActive.bind(this);
+        this.getSequenceList = this.getSequenceList.bind(this);
         this.synth = new Tone.PolySynth().toDestination();
         this.rowNotes = [
             "C4",
@@ -117,6 +118,22 @@ class App extends React.Component {
         }));
     }
 
+    getSequenceList() {
+        return [
+            "delightful-gambit",
+            "trepidated-swordfish",
+            "incredible-shelves",
+        ];
+    }
+
+    sequenceListItem(text) {
+        return (
+            <div className="sequence-list-item">
+                <a href={`/app/?sequence=${text}`}>{text}</a>
+            </div>
+        );
+    }
+
     render() {
         let rows = new Array(numRows);
         for (let i = 0; i < numRows; i++) {
@@ -127,28 +144,37 @@ class App extends React.Component {
             );
         }
         return (
-            <div>
-                {rows}
+            <div className="app-container">
+                <div className="sequence-list-panel">
+                    <div>
+                        <b>Other Sequences</b>
+                    </div>
+                    {this.getSequenceList().map(this.sequenceListItem)}
+                </div>
                 <div>
-                    <button
-                        className="control-button play-button"
-                        onClick={this.togglePlayStop}
-                    >
-                        {this.state.isPlaying ? "s" : "p"}
-                    </button>
-                    <button className="control-button speed-button">1</button>
+                    {rows}
+                    <div>
+                        <button
+                            className="control-button play-button"
+                            onClick={this.togglePlayStop}
+                        >
+                            {this.state.isPlaying ? "s" : "p"}
+                        </button>
+                        <button className="control-button speed-button">
+                            1
+                        </button>
+                    </div>
                 </div>
             </div>
         );
     }
 }
 
-fetch("http://127.0.0.1:5000/test-data")
+const queryParams = new URLSearchParams(window.location.search);
+const sequenceName = queryParams.get("sequence");
+fetch(`http://127.0.0.1:5000/sequence?sequence=${sequenceName}`)
     .then((response) => response.json())
     .then((data) => {
-        console.log(data);
-        console.log("wicked!");
-        console.log("fast!");
         ReactDOM.render(
             <App cellsAreActive={data.cellsAreActive} />,
             document.getElementById("root")

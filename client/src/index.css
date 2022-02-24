@@ -8,6 +8,16 @@ ul {
     padding-left: 30px;
 }
 
+.app-container {
+    display: grid;
+    grid-template-columns: 20% 80%;
+    grid-gap: 16px;
+}
+
+.sequence-list-item {
+    margin-top: 16px;
+}
+
 .cell-grid-row:after {
     clear: both;
     content: "";
