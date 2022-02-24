@@ -191,6 +191,9 @@ class App extends React.Component {
                             onClick={this.createNewSequence}
                         >
                             create new sequence
+                            <span role="img" aria-label="sparkle" style={{"margin-left": "4px"}}>
+                                ❇️
+                            </span>
                         </button>
                     </div>
                     {this.state.sequences.map(this.sequenceListItem)}
@@ -202,8 +205,18 @@ class App extends React.Component {
                             className="control-button play-button"
                             onClick={this.togglePlayStop}
                         >
-                            {this.state.isPlaying ? "s" : "p"}
+                            {this.state.isPlaying ? (
+                                <span role="img" aria-label="stop">
+                                    ⏹️
+                                </span>
+                            ) : (
+                                <span role="img" aria-label="play">
+                                    ▶️
+                                </span>
+                            )}
                         </button>
+                        This is a shared space --- Please don't deface others'
+                        art :-)
                     </div>
                 </div>
             </div>
