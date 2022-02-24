@@ -79,4 +79,12 @@ I'm choosing not to learn Poetry for now. It seems I need to figure out Yarn.
 
 Turns out CRA is using Yarn underneath, so `yarn start` works, and I'm guessing the rest of the tutorial should work out too.
 
+Alright, hot reloading works, and now we're into more of my territory working on the backend, with a list of sequences and the note data for the sequences coming from a Flask server (that is also serving the frontend).
+
+Time to hook this up to a managed Postgres instance and create the ability to edit and create new sequences!
+
+Aaand, managed Postgres on Amazon RDS is too expensive. Any cheaper options or should I just use `sqlite3`?
+
+I ripped [this](https://github.com/bevacqua/correcthorse/blob/master/wordlist.json) off for a word list and scrubbed just a few words out of it.
+
 

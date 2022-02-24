@@ -14,30 +14,32 @@
 
 -   ~~Local React setup~~
 -   ~~React pattern visualization~~
--   Play & pause
+-   ~~Play & pause~~
     -   ~~Implement play/stop button change state~~
     -   ~~Implement animations of cells~~
         - ~~On play, set 1st column visual~~
         - ~~play tone based on filled cells~~
         - ~~use transport timing callback?~~
-    -   Implement 3-value speed
-    -   Use Sampler
-    -   Load files
     -   ~~Fix doesn't work on reload bug~~
 -   backend
     -   ~~define data schema for opening sequencer~~
     -   ~~initialize sequencer from data~~
     -   ~~Get data from endpoint~~
-    -   List view of saved sequences (list from another endpoint; view list on same page)
+    -   ~~List view of saved sequences (list from another endpoint; view list on same page)~~
     -   load data from database (managed Postgres on AWS RDS)
     -   save changes to sequence continuously
     -   create new sequences
 -   deploy to EC2
+-   hook up my domain name
 
-hook up my domain name
--   Maybe
-    -   ~~improve timing~~
-    -   drag to draw
+
+## After first deploy
+
+-   Better sequencer
+    -   Implement 3-value speed
+    -   Use Sampler
+    -   Load files
+    -   drag to draw/delete
 
 ### Deployment
 
