@@ -183,9 +183,6 @@ class App extends React.Component {
                         >
                             {this.state.isPlaying ? "s" : "p"}
                         </button>
-                        <button className="control-button speed-button">
-                            1
-                        </button>
                     </div>
                 </div>
             </div>
