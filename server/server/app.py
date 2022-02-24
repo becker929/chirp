@@ -16,17 +16,20 @@ app = Flask(__name__)
 con = sqlite3.connect(":memory:")
 cursor = con.cursor()
 
+
 def get_db():
-    db = getattr(g, '_database', None)
+    db = getattr(g, "_database", None)
     if db is None:
         db = g._database = sqlite3.connect(DB_PATH)
     return db
 
+
 @app.teardown_appcontext
 def close_connection(exception):
-    db = getattr(g, '_database', None)
+    db = getattr(g, "_database", None)
     if db is not None:
         db.close()
+
 
 def proxy(host, path):
     response = get(f"{host}{path}")
@@ -62,7 +65,10 @@ def sequence():
     sequence_name = request.args.get("sequence")
     print(sequence_name)
     cursor = get_db().cursor()
-    sequences_raw = cursor.execute("""SELECT * FROM sequences WHERE name=:sequence_name""", {"sequence_name": sequence_name})
+    sequences_raw = cursor.execute(
+        """SELECT * FROM sequences WHERE name=:sequence_name""",
+        {"sequence_name": sequence_name},
+    )
     sequence_data = json.loads(list(sequences_raw)[0][1])
     return sequence_data
 
@@ -72,8 +78,6 @@ def sequences_list():
     cursor = get_db().cursor()
     names_raw = cursor.execute("""SELECT name FROM sequences""")
     names = [name[0] for name in names_raw]
-    sequence_data = {
-        "sequences": names
-    }
+    sequence_data = {"sequences": names}
     print(sequence_data)
     return sequence_data
