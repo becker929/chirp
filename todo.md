@@ -26,8 +26,8 @@
     -   ~~initialize sequencer from data~~
     -   ~~Get data from endpoint~~
     -   ~~List view of saved sequences (list from another endpoint; view list on same page)~~
-    -   load data from database (managed Postgres on AWS RDS)
-    -   save changes to sequence continuously
+    -   ~~load data from database (sqlite3)~~
+    -   ~~save changes to sequence continuously~~
     -   create new sequences
 -   deploy to EC2
 -   hook up my domain name
