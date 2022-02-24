@@ -46,6 +46,10 @@ class App extends React.Component {
         ];
     }
 
+    componentDidMount() {
+        this.getSequenceList();
+    }
+
     cellGridRow(i) {
         let row = new Array(numCols);
         for (let j = 0; j < numCols; j++) {
@@ -74,7 +78,6 @@ class App extends React.Component {
             () => {
                 if (this.state.isPlaying) {
                     Tone.start();
-                    // transport must be started before it starts invoking events
                     Tone.Transport.start();
                     Tone.Transport.scheduleRepeat((time) => {
                         this.setState(
@@ -131,7 +134,10 @@ class App extends React.Component {
 
     sequenceListItem(text) {
         return (
-            <div className="sequence-list-item">
+            <div
+                className="sequence-list-item"
+                key={`sequence-list-item-${text}`}
+            >
                 <a href={`/app/?sequence=${text}`}>{text}</a>
             </div>
         );
@@ -146,7 +152,6 @@ class App extends React.Component {
                 </div>
             );
         }
-        this.getSequenceList();
         return (
             <div className="app-container">
                 <div className="sequence-list-panel">
