@@ -8,9 +8,9 @@ from flask import g
 from flask import request
 from requests import get
 
-IS_DEV = environ["FLASK_ENV"] == "development"
+IS_DEV = environ.get("FLASK_ENV", "production") == "development"
 WEBPACK_DEV_SERVER_HOST = "http://localhost:3000"
-DB_PATH = environ["DB_PATH"]
+DB_PATH = environ.get("DB_PATH", "chirp.db")
 
 app = Flask(__name__)
 
