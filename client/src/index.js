@@ -24,6 +24,7 @@ class App extends React.Component {
             colIndex: 0,
             isPlaying: false,
             cellsAreActive: props.cellsAreActive,
+            sequences: [],
         };
         this.togglePlayStop = this.togglePlayStop.bind(this);
         this.toggleActive = this.toggleActive.bind(this);
@@ -118,12 +119,14 @@ class App extends React.Component {
         }));
     }
 
-    getSequenceList() {
-        return [
-            "delightful-gambit",
-            "trepidated-swordfish",
-            "incredible-shelves",
-        ];
+    async getSequenceList() {
+        fetch("http://127.0.0.1:5000/sequences-list")
+            .then((response) => response.json())
+            .then((data) => {
+                this.setState((prevState) => ({
+                    sequences: data.sequences,
+                }));
+            });
     }
 
     sequenceListItem(text) {
@@ -143,13 +146,14 @@ class App extends React.Component {
                 </div>
             );
         }
+        this.getSequenceList();
         return (
             <div className="app-container">
                 <div className="sequence-list-panel">
                     <div>
                         <b>Other Sequences</b>
                     </div>
-                    {this.getSequenceList().map(this.sequenceListItem)}
+                    {this.state.sequences.map(this.sequenceListItem)}
                 </div>
                 <div>
                     {rows}
