@@ -191,7 +191,11 @@ class App extends React.Component {
                             onClick={this.createNewSequence}
                         >
                             create new sequence
-                            <span role="img" aria-label="sparkle" style={{"margin-left": "4px"}}>
+                            <span
+                                role="img"
+                                aria-label="sparkle"
+                                style={{ "margin-left": "4px" }}
+                            >
                                 ❇️
                             </span>
                         </button>
