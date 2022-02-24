@@ -444,3 +444,6 @@ dist
 
 # static files will be stored under client and moved to server/server/static/ on build
 server/server/static/
+
+# database file
+*.db
