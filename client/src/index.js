@@ -159,16 +159,14 @@ class App extends React.Component {
 
     createNewSequence() {
         console.log("hello");
-        fetch(
-            `http://127.0.0.1:5000/sequence?sequence=${sequenceName}`,
-            {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-            }
-        ).then((response) => response.json())
-        .then((data) => {
-            console.log(data);
+        fetch(`http://127.0.0.1:5000/sequence?sequence=${sequenceName}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
         })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+            });
     }
 
     render() {
@@ -187,7 +185,10 @@ class App extends React.Component {
                         <b>Other Sequences</b>
                     </div>
                     <div>
-                        <button className="new-sequence-button" onClick={this.createNewSequence}>
+                        <button
+                            className="new-sequence-button"
+                            onClick={this.createNewSequence}
+                        >
                             create new sequence
                         </button>
                     </div>

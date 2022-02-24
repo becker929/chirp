@@ -98,13 +98,11 @@ def sequence():
             print(word_choices)
             sequence_name_words = []
             for _ in range(3):
-                sequence_name_words.append(
-                    random.choice(word_choices)
-                    )
+                sequence_name_words.append(random.choice(word_choices))
             sequence_name = "-".join(sequence_name_words)
             connection = get_db()
             cursor = connection.cursor()
-            empty_sequence = json.dumps({"cellsAreActive": [[False]*12]*12})
+            empty_sequence = json.dumps({"cellsAreActive": [[False] * 12] * 12})
             cursor.execute(
                 """
                 INSERT INTO sequences
