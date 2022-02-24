@@ -117,9 +117,23 @@ class App extends React.Component {
     toggleActive(i, j) {
         const cellsAreActive = this.state.cellsAreActive.slice();
         cellsAreActive[i][j] = !cellsAreActive[i][j];
-        this.setState(() => ({
-            cellsAreActive: cellsAreActive,
-        }));
+        this.setState(
+            () => ({
+                cellsAreActive: cellsAreActive,
+            }),
+            () => {
+                fetch(
+                    `http://127.0.0.1:5000/sequence?sequence=${sequenceName}`,
+                    {
+                        method: "PUT",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            cellsAreActive: this.state.cellsAreActive,
+                        }),
+                    }
+                );
+            }
+        );
     }
 
     async getSequenceList() {

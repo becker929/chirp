@@ -60,17 +60,36 @@ def getApp(path):
     return app.send_static_file(path)
 
 
-@app.route("/sequence")
+@app.route("/sequence", methods=["GET", "PUT"])
 def sequence():
-    sequence_name = request.args.get("sequence")
-    print(sequence_name)
-    cursor = get_db().cursor()
-    sequences_raw = cursor.execute(
-        """SELECT * FROM sequences WHERE name=:sequence_name""",
-        {"sequence_name": sequence_name},
-    )
-    sequence_data = json.loads(list(sequences_raw)[0][1])
-    return sequence_data
+    if request.method == "GET":
+        sequence_name = request.args.get("sequence")
+        print(sequence_name)
+        cursor = get_db().cursor()
+        sequences_raw = cursor.execute(
+            """SELECT * FROM sequences WHERE name=:sequence_name""",
+            {"sequence_name": sequence_name},
+        )
+        sequence_data = json.loads(list(sequences_raw)[0][1])
+        return sequence_data
+
+    elif request.method == "PUT":
+        sequence_data = json.loads(request.data)
+        print(request.data)
+        sequence_name = request.args.get("sequence")
+        print(sequence_name)
+        connection = get_db()
+        cursor = connection.cursor()
+        cursor.execute(
+            """
+            UPDATE sequences
+            SET data = :data
+            WHERE name = :name
+            """,
+            {"name": sequence_name, "data": request.data},
+        )
+        connection.commit()
+        return {"OK": 0}
 
 
 @app.route("/sequences-list")
