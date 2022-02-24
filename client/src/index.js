@@ -157,6 +157,20 @@ class App extends React.Component {
         );
     }
 
+    createNewSequence() {
+        console.log("hello");
+        fetch(
+            `http://127.0.0.1:5000/sequence?sequence=${sequenceName}`,
+            {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+            }
+        ).then((response) => response.json())
+        .then((data) => {
+            console.log(data);
+        })
+    }
+
     render() {
         let rows = new Array(numRows);
         for (let i = 0; i < numRows; i++) {
@@ -171,6 +185,11 @@ class App extends React.Component {
                 <div className="sequence-list-panel">
                     <div>
                         <b>Other Sequences</b>
+                    </div>
+                    <div>
+                        <button className="new-sequence-button" onClick={this.createNewSequence}>
+                            create new sequence
+                        </button>
                     </div>
                     {this.state.sequences.map(this.sequenceListItem)}
                 </div>

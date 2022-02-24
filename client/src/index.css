@@ -10,7 +10,7 @@ ul {
 
 .app-container {
     display: grid;
-    grid-template-columns: 20% 80%;
+    grid-template-columns: 30% 70%;
     grid-gap: 16px;
 }
 
@@ -70,4 +70,9 @@ ul {
 
 .play-button {
     margin-right: 20px;
+}
+
+.new-sequence-button {
+    margin-top: 8px;
+    margin-bottom: 8px;
 }

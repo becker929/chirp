@@ -1,5 +1,6 @@
 import json
 import sqlite3
+import random
 from os import environ
 
 from flask import Flask
@@ -60,7 +61,7 @@ def getApp(path):
     return app.send_static_file(path)
 
 
-@app.route("/sequence", methods=["GET", "PUT"])
+@app.route("/sequence", methods=["GET", "PUT", "POST"])
 def sequence():
     if request.method == "GET":
         sequence_name = request.args.get("sequence")
@@ -90,6 +91,29 @@ def sequence():
         )
         connection.commit()
         return {"OK": 0}
+
+    elif request.method == "POST":
+        with open("./server/words.json") as words_file:
+            word_choices = json.load(words_file)["words"]
+            print(word_choices)
+            sequence_name_words = []
+            for _ in range(3):
+                sequence_name_words.append(
+                    random.choice(word_choices)
+                    )
+            sequence_name = "-".join(sequence_name_words)
+            connection = get_db()
+            cursor = connection.cursor()
+            empty_sequence = json.dumps({"cellsAreActive": [[False]*12]*12})
+            cursor.execute(
+                """
+                INSERT INTO sequences
+                VALUES (:name, :data)
+                """,
+                {"name": sequence_name, "data": empty_sequence},
+            )
+            connection.commit()
+            return {"sequence_name": sequence_name}
 
 
 @app.route("/sequences-list")
