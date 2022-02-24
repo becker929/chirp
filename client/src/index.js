@@ -166,6 +166,7 @@ class App extends React.Component {
             .then((response) => response.json())
             .then((data) => {
                 console.log(data);
+                window.location.href = `/app?sequence=${data.sequence_name}`;
             });
     }
 
