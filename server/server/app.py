@@ -101,7 +101,7 @@ def sequence():
         return {"OK": 0}
 
     elif request.method == "POST":
-        with open("./server/words.json") as words_file:
+        with open("./words.json") as words_file:
             word_choices = json.load(words_file)["words"]
             print(word_choices)
             sequence_name_words = []
