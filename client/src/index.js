@@ -177,6 +177,9 @@ class App extends React.Component {
         }
         return (
             <div className="app-container">
+                <div>Chirp, by Anthony Becker <a href="https://github.com/becker929/chirp">[GitHub]</a> <a href="https://www.linkedin.com/in/becker929/">[LinkedIn]</a> <a href="https://drive.google.com/file/d/1efEBdFdfWN8QjA-TqOuLGqQx9WHTDYQ8/view?usp=sharing">[Resume]</a></div>
+                <br/>
+                <div>{sequenceName}</div>
                 <div>
                     {rows}
                     <div>
