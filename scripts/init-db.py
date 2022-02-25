@@ -8,10 +8,12 @@ try:
 except Exception as e:
     print(f"exception while creating table:{e}")
     print("continuing")
-cursor.execute(
-    """
-    INSERT INTO sequences VALUES
-    ('incredible-shelves', :data)
-    """,
-    {"data": json.dumps({"cellsAreActive": [[False] * 12] * 12})},
-)
+finally:
+    cursor.execute(
+        """
+        INSERT INTO sequences VALUES
+        ('incredible-shelves', :data)
+        """,
+        {"data": json.dumps({"cellsAreActive": [[False] * 12] * 12})},
+    )
+    con.commit()
