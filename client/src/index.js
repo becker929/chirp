@@ -177,27 +177,6 @@ class App extends React.Component {
         }
         return (
             <div className="app-container">
-                <div className="sequence-list-panel">
-                    <div>
-                        <b>Other Sequences</b>
-                    </div>
-                    <div>
-                        <button
-                            className="new-sequence-button"
-                            onClick={this.createNewSequence}
-                        >
-                            create new sequence
-                            <span
-                                role="img"
-                                aria-label="sparkle"
-                                style={{ "margin-left": "4px" }}
-                            >
-                                ❇️
-                            </span>
-                        </button>
-                    </div>
-                    {this.state.sequences.map(this.sequenceListItem)}
-                </div>
                 <div>
                     {rows}
                     <div>
@@ -218,6 +197,27 @@ class App extends React.Component {
                         This is a shared space --- Please don't deface others'
                         art :-)
                     </div>
+                </div>
+                <div className="sequence-list-panel">
+                    <div>
+                        <b>Other Sequences</b>
+                    </div>
+                    <div>
+                        <button
+                            className="new-sequence-button"
+                            onClick={this.createNewSequence}
+                        >
+                            create new sequence
+                            <span
+                                role="img"
+                                aria-label="sparkle"
+                                style={{ "margin-left": "4px" }}
+                            >
+                                ❇️
+                            </span>
+                        </button>
+                    </div>
+                    {this.state.sequences.map(this.sequenceListItem)}
                 </div>
             </div>
         );
