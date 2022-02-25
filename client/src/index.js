@@ -149,7 +149,7 @@ class App extends React.Component {
                 className="sequence-list-item"
                 key={`sequence-list-item-${text}`}
             >
-                <a href={`/app/?sequence=${text}`}>{text}</a>
+                <a href={`/chirp/?sequence=${text}`}>{text}</a>
             </div>
         );
     }
@@ -163,7 +163,7 @@ class App extends React.Component {
             .then((response) => response.json())
             .then((data) => {
                 console.log(data);
-                window.location.href = `/app?sequence=${data.sequence_name}`;
+                window.location.href = `/chirp?sequence=${data.sequence_name}`;
             });
     }
 

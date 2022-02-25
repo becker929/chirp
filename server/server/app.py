@@ -6,6 +6,8 @@ from os import environ
 from flask import Flask
 from flask import g
 from flask import request
+from flask import redirect
+from flask import url_for
 from requests import get
 
 IS_DEV = environ.get("FLASK_ENV", "production") == "development"
@@ -50,12 +52,12 @@ def proxy(host, path):
 
 @app.route("/")
 def getRoot():
-    return "Welcome!"
+    return redirect(url_for(chirp_app))
 
 
-@app.route("/app/", defaults={"path": "index.html"})
-@app.route("/app/<path:path>")
-def getApp(path):
+@app.route("/chirp/", defaults={"path": "index.html"})
+@app.route("/chirp/<path:path>")
+def chirp_app(path):
     if IS_DEV:
         return proxy(WEBPACK_DEV_SERVER_HOST, request.path)
     return app.send_static_file(path)
