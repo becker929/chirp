@@ -87,4 +87,118 @@ Aaand, managed Postgres on Amazon RDS is too expensive. Any cheaper options or s
 
 I ripped [this](https://github.com/bevacqua/correcthorse/blob/master/wordlist.json) off for a word list and scrubbed just a few words out of it.
 
+2022-02-24
 
+(around 1am)
+
+I've definitely stayed up too late doing this, but my app is running on EC2 and responding to web requests at its IP address. There's some kind of CORS bug to handle, and it's extremely slow, probably because of the size of the instance, being a micro. Probably I'll just have to pay a little more to get a decent sized instance and fix some bugs tomorrow.... I don't like that it took me till Thursday to get the smallest thing up and running, but that's how it is. I thought I might have something by Monday, but the weekend I rested a lot and even Monday got away from me a bit, so really it's just the last couple days I've been working really hard on this.
+
+Tomorrow, fix the bugs, get the first version working and connect it to a nice URL!
+
+OK, it looks like the problem is CORS, and it looks like I'm going to need to serve traffic over https to fix this. So I'm following [this tutorial](https://iserversupport.com/blog/how-to-install-lets-encrypt-ssl-on-nginx-running-python-django-flask/), which says that I need to have a domain name, so I'm following [this tutorial](https://w3path.com/point-domain-to-aws-ec2-instance/) in order to point my domain name anthonybecker.xyz at my EC2 instance. I want to see if I can use [the information here](https://ns1.com/resources/dns-propagation) to speed up DNS propogation so that I can link to my website before the end of today.
+
+I've allocated and associated an Elastic IP with Chirp's proof of concept instance. This is not scalable! I'll want to set up some kind of auto-scaling / load-balancing system later, but this is enough for now.
+
+I also need to route the ports properly.
+
+anthonybecker.xyz +-->  http -> 80 (standard) ----- \
+                  \-->  https -> 443 (standard) --- |
+                                                    |
+gunicorn <--- nginx <--- AWS Security Group <-------/
+
+Since I'm waiting for DNS to propogate before I have the domain name pointed at my AWS Elastic IP, let me see if I can continue with Let's Encrypt.
+
+Not sure what `An A record  and www record for the required domain name.` means. Ignoring for now.
+
+Need `Nginx server block for the required domain ( /etc/nginx/sites-available/domain.conf )` ---> I was having an issue with this where I'm not sure whether Amazon nginx1 is configured in the standard way. I'm not even sure that nginx is actually serving my traffic at this point. How can I tell?
+
+I've also gotta connect in a better way to my instance as the browser connection keeps becoming unresponsive.
+
+[This tutorial](https://medium.com/techfront/step-by-step-visual-guide-on-deploying-a-flask-application-on-aws-ec2-8e3e8b82c4f7) is what I followed to deploy my app on EC2.
+
+Running `sudo systemctl stop nginx`, which `ps -ef | grep nginx` shows did indeed kill `nginx`, and reloading http://54.177.250.166:5000/ shows that `nginx` isn't even being used to serve my app.
+
+The Let's Encrypt tutorial seems to think that I need nginx,.... let's try moving forward anyway. Otherwise I'll need to figure out what's different with the Amazon distribution / where I need to put the configuration files.
+
+... And DNS propogated! Woohoo!!
+
+Going to use [this tutorial](https://blog.miguelgrinberg.com/post/running-your-flask-application-over-https) to try setting up HTTPS instead. Remember--this is just to get the app to work at all! So I'll run the initial "ad-hoc" way just to see if I can get it working, then move forward to self-signed and Let's Encrypt.
+
+Bah, none of the introductory bits are working. Also the above requires nginx to follow. So:
+
+- Set up nginx
+- Set up Let's Encrypt
+
+I'm going to try following the original instructions for setting up nginx (in the medium techfront tutorial) but see if I can adapt it based on the directory structure given by the Amazon Linux Extras nginx1 installation.
+
+First I need to set up local SSH because this browser terminal is awful. Done!
+
+Re-installed nginx and removed the previously created file. However now the tutorial says I should be able to access the nginx landing page at the instance's public IP address, but that's not happening. Following [this tutorial](https://www.nginx.com/blog/setting-up-nginx/) I tried using `sudo systemctl start nginx.service` but the page still doesn't load from there.
+
+Ah, probably because I skipped opening the correct port.
+
+OK, now I get the nginx landing page on my domain name, although only for http.
+
+Cotinuing with the techfront article. Well, the next step is the sites-available/default file, I'm going to do a little research about that
+
+OK! My homepage, without a port specified, is now pointing to my app. Here's what my nginx configuration looks like:
+
+`upstream chirp {
+        server 127.0.0.1:5000;
+}
+
+server {
+        location / {
+                proxy_pass http://chirp;
+        }
+}`
+
+And that's at `/etc/nginx/conf.d/server.conf`
+
+HTTPS still doesn't work. Only http. The link to certbot is broken in the tutorial, but certbot is apparently an easy way to use Let's Encrypt. An issue might be that I don't have www subdomain set up on anthonybecker.xyz, and I might need that.
+
+I'm going to try to follow [this tutorial](https://www.freecodecamp.org/news/going-https-on-amazon-ec2-ubuntu-14-04-with-lets-encrypt-certbot-on-nginx-696770649e76/).
+
+Now www works.
+
+[This page](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/SSL-on-amazon-linux-2.html) seems to have a lot of good information, but it assumes Apache is being used, whereas I'm using nginx. I'm going to follow the installation steps for certbot and then go back to the freecodecamp tutorial to actually run certbot.
+
+OK, https works! Here's what my nginx `conf.d/server.conf` file looks like:
+
+```
+upstream chirp {
+        server 127.0.0.1:5000;
+}
+
+server {
+        listen 80;
+        server_name www.anthonybecker.xyz;
+        location / {
+                return 301 https://$server_name$request_uri;
+        }
+}
+
+server {
+        listen 443 ssl;
+        server_name xyz.yourdomain.com;
+        ssl_certificate /etc/letsencrypt/live/www.anthonybecker.xyz/fullchain.pem;
+        ssl_certificate_key /etc/letsencrypt/live/www.anthonybecker.xyz/privkey.pem;
+        add_header Strict-Transport-Security "max-age=31536000";
+        location / {
+                proxy_pass http://chirp;
+        }
+}
+```
+
+Reading logs on console using `gunicorn -b 0.0.0.0:5000 app:app --log-file=-`. Hadn't initialized the database yet!
+
+Okay, I've got data in my database, and of course https is working at this point, but I'm still getting this:
+
+```
+GET http://127.0.0.1:5000/sequence?sequence=incredible-shelves net::ERR_CONNECTION_REFUSED
+```
+
+This might be just because `127.0.0.1` isn't working. Or could it be because I need to request it over https? OH probably the browser assumes that `127.0.0.1` literally means the localhost of the client. So I should actually set that URL to anthonybecker.xyz!!!
+
+
+BOYS WE HAVE LIFT OFF!

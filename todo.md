@@ -28,13 +28,24 @@
     -   ~~List view of saved sequences (list from another endpoint; view list on same page)~~
     -   ~~load data from database (sqlite3)~~
     -   ~~save changes to sequence continuously~~
-    -   create new sequences
--   deploy to EC2
+    -   ~~create new sequences~~
+-   ~~deploy to EC2~~
+    -   ~~create virtual machine~~
+    -   ~~pull repo~~
+    -   ~~launch project~~
+    -   ~~access from web~~
 -   hook up my domain name
+    -   ~~point domain name to EC2 IP address~~
+    -   Forward ports 80 & 443 to port 5000
+    -   Set up Let's Encrypt
 
 
 ## After first deploy
-
+-   set up relative file paths in app.py
+-   security thing
+    -   Improve your instances' security. Your security group, launch-wizard-1, is open to the world.
+        Your instances may be accessible from any IP address. We recommend that you update your security group rules to allow access from known IP addresses only.
+        You can also open additional ports in your security group to facilitate access to the application or service you're running, e.g., HTTP (80) for web servers
 -   Better sequencer
     -   Implement 3-value speed
     -   Use Sampler
