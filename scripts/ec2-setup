@@ -1,0 +1,59 @@
+# This should eventually incorporate all of the steps as detailed in devlog
+
+# This should probably just be an AMI (image)!
+# connect through AWS console in-browser terminal (EC2 Instance Connect)
+sudo yum update -y
+sudo yum install git -y
+git clone https://github.com/becker929/chirp.git
+cd chirp
+
+# install python
+# maybe Python 3.7.10 (preinstalled) is OK?
+# install python dependencies
+# on local, pip freeze > server/requirements.txt
+python3 -m pip install -r  server/requirements.txt
+# install node
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
+. ~/.nvm/nvm.sh
+nvm install node
+# node -e "console.log('Running Node.js ' + process.version)"
+
+# install js dependencies
+npm install yarn -g
+yarn install
+yarn build
+# yarn -v
+
+# start flask server
+python3 -m pip install gunicorn
+cd server/server
+gunicorn -b 0.0.0.0 app:server/app
+sudo vim /etc/systemd/system/helloworld.service
+
+# [Unit]
+# Description=Gunicorn instance for Chirp app
+# After=network.target
+
+# [Service]
+# User=ubuntu
+# Group=www-data
+# WorkingDirectory=/home/ec2-user/chirp/server/server
+# ExecStart=/home/ec2-user/.local/bin/gunicorn -b localhost app:app
+# Restart=always
+
+# [Install]
+# WantedBy=multi-user.target
+
+sudo systemctl daemon-reload
+sudo systemctl start helloworld
+sudo systemctl enable helloworld
+
+# this didn't work ^
+
+
+sudo amazon-linux-extras install nginx1
+sudo systemctl start nginx && sudo systemctl enable nginx
+
+# these steps didn't work either.... can't get to my site!
+
+# need to add port to security group.....
