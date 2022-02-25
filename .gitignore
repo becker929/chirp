@@ -447,3 +447,5 @@ server/server/static/
 
 # database file
 *.db
+*.pem
+*.flaskenv
