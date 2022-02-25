@@ -53,7 +53,8 @@ def proxy(host, path):
 @app.route("/helloworld")
 def helloworld():
     return "hello world!"
-    
+
+
 @app.route("/")
 def getRoot():
     return redirect(url_for("chirp_app"))

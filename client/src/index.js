@@ -8,10 +8,7 @@ function Cell(props) {
         "cell " +
         (props.isActive ? "cell-active" : "cell-inactive") +
         (props.isHighlighted ? " cell-highlighted" : "");
-    return (
-        <button className={className} onClick={props.onClick}>
-        </button>
-    );
+    return <button className={className} onClick={props.onClick}></button>;
 }
 
 const numRows = 12;
@@ -177,8 +174,20 @@ class App extends React.Component {
         }
         return (
             <div className="app-container">
-                <div><span role="img" aria-label="hatching-chick">🐣</span> Chirp, by Anthony Becker <a href="https://github.com/becker929/chirp">[GitHub]</a> <a href="https://www.linkedin.com/in/becker929/">[LinkedIn]</a> <a href="https://drive.google.com/file/d/1efEBdFdfWN8QjA-TqOuLGqQx9WHTDYQ8/view?usp=sharing">[Resume]</a></div>
-                <br/>
+                <div>
+                    <span role="img" aria-label="hatching-chick">
+                        🐣
+                    </span>{" "}
+                    Chirp, by Anthony Becker{" "}
+                    <a href="https://github.com/becker929/chirp">[GitHub]</a>{" "}
+                    <a href="https://www.linkedin.com/in/becker929/">
+                        [LinkedIn]
+                    </a>{" "}
+                    <a href="https://drive.google.com/file/d/1efEBdFdfWN8QjA-TqOuLGqQx9WHTDYQ8/view?usp=sharing">
+                        [Resume]
+                    </a>
+                </div>
+                <br />
                 <div>{sequenceName}</div>
                 <div>
                     {rows}
