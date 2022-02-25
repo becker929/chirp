@@ -50,9 +50,13 @@ def proxy(host, path):
     return (response.content, response.status_code, headers)
 
 
+@app.route("/helloworld")
+def helloworld():
+    return "hello world!"
+    
 @app.route("/")
 def getRoot():
-    return redirect(url_for(chirp_app))
+    return redirect(url_for("chirp_app"))
 
 
 @app.route("/chirp/", defaults={"path": "index.html"})
