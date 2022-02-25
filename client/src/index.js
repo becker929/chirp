@@ -10,7 +10,6 @@ function Cell(props) {
         (props.isHighlighted ? " cell-highlighted" : "");
     return (
         <button className={className} onClick={props.onClick}>
-            {props.value}
         </button>
     );
 }
