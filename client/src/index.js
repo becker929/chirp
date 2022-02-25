@@ -122,22 +122,19 @@ class App extends React.Component {
                 cellsAreActive: cellsAreActive,
             }),
             () => {
-                fetch(
-                    `http://127.0.0.1/sequence?sequence=${sequenceName}`,
-                    {
-                        method: "PUT",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                            cellsAreActive: this.state.cellsAreActive,
-                        }),
-                    }
-                );
+                fetch(`/sequence?sequence=${sequenceName}`, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        cellsAreActive: this.state.cellsAreActive,
+                    }),
+                });
             }
         );
     }
 
     async getSequenceList() {
-        fetch("http://127.0.0.1/sequences-list")
+        fetch("/sequences-list")
             .then((response) => response.json())
             .then((data) => {
                 this.setState((prevState) => ({
@@ -159,7 +156,7 @@ class App extends React.Component {
 
     createNewSequence() {
         console.log("hello");
-        fetch(`http://127.0.0.1/sequence?sequence=${sequenceName}`, {
+        fetch(`/sequence?sequence=${sequenceName}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
         })
@@ -230,7 +227,7 @@ class App extends React.Component {
 
 const queryParams = new URLSearchParams(window.location.search);
 const sequenceName = queryParams.get("sequence");
-fetch(`http://127.0.0.1/sequence?sequence=${sequenceName}`)
+fetch(`/sequence?sequence=${sequenceName}`)
     .then((response) => response.json())
     .then((data) => {
         ReactDOM.render(
