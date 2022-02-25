@@ -72,7 +72,6 @@ def sequence():
     if request.method == "GET":
         if "sequence" in request.args and request.args.get("sequence") != "null":
             sequence_name = request.args.get("sequence")
-            print(sequence_name)
             cursor = get_db().cursor()
             sequences_raw = cursor.execute(
                 """SELECT * FROM sequences WHERE name=:sequence_name""",
@@ -90,9 +89,7 @@ def sequence():
 
     elif request.method == "PUT":
         sequence_data = json.loads(request.data)
-        print(request.data)
         sequence_name = request.args.get("sequence")
-        print(sequence_name)
         connection = get_db()
         cursor = connection.cursor()
         cursor.execute(
@@ -109,7 +106,6 @@ def sequence():
     elif request.method == "POST":
         with open("./words.json") as words_file:
             word_choices = json.load(words_file)["words"]
-            print(word_choices)
             sequence_name_words = []
             for _ in range(3):
                 sequence_name_words.append(random.choice(word_choices))
@@ -134,5 +130,4 @@ def sequences_list():
     names_raw = cursor.execute("""SELECT name FROM sequences""")
     names = [name[0] for name in names_raw]
     sequence_data = {"sequences": names}
-    print(sequence_data)
     return sequence_data
